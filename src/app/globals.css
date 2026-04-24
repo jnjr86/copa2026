@@ -1,0 +1,89 @@
+@import url('https://api.fontshare.com/v2/css?f[]=clash-grotesk@700,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --accent: #23FDA6;
+  --accent-dim: rgba(35, 253, 166, 0.12);
+  --accent-glow: rgba(35, 253, 166, 0.25);
+  --bg-base: #0C0E15;
+  --bg-card: #131620;
+  --bg-hover: #181B28;
+  --border: #1E2233;
+  --text-primary: #E8EAF0;
+  --text-secondary: #8892A4;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg-base);
+}
+
+body {
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6,
+.font-display {
+  font-family: 'Clash Grotesk', system-ui, sans-serif;
+  font-weight: 700;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #0C0E15;
+}
+::-webkit-scrollbar-thumb {
+  background: #1E2233;
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2A3048;
+}
+
+/* Accent glow utility */
+.glow-accent {
+  box-shadow: 0 0 24px rgba(35, 253, 166, 0.18);
+}
+
+/* Phase badge base */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 99px;
+}
+
+/* Quick nav card hover */
+.quick-nav-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+
+/* Number input arrows hidden */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
