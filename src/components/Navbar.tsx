@@ -35,7 +35,7 @@ export default function Navbar() {
             height={74}
             className="transition-all duration-300 group-hover:scale-110"
           />
-          <div className="leading-none">
+          <span className="leading-none">
             <span
               className="font-display text-xl tracking-tight"
               style={{ color: "var(--accent)" }}
@@ -43,7 +43,7 @@ export default function Navbar() {
               Copa
             </span>
             <span className="font-display text-xl tracking-tight text-white"> 2026</span>
-          </div>
+          </span>
           <span
             className="text-sm font-body font-600 px-2 py-0.5 rounded-full border ml-1"
             style={{
