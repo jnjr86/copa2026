@@ -29,9 +29,8 @@ interface MatchCardProps {
 }
 
 function formatDate(dateStr: string) {
-  const brt = new Date(new Date(dateStr).getTime() - 3 * 60 * 60 * 1000);
-  return brt.toLocaleDateString("pt-BR", {
-    timeZone: "UTC",
+  return new Date(dateStr).toLocaleDateString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
     weekday: "short",
     day: "2-digit",
     month: "short",
@@ -39,10 +38,11 @@ function formatDate(dateStr: string) {
 }
 
 function formatTime(dateStr: string) {
-  const d = new Date(dateStr);
-  const h = (d.getUTCHours() - 3 + 24) % 24;
-  const m = d.getUTCMinutes();
-  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+  return new Date(dateStr).toLocaleTimeString("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
 }
 
 const PHASE_STYLES: Record<string, { bg: string; color: string; label: string }> = {
