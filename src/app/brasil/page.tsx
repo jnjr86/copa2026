@@ -1,20 +1,21 @@
 import { prisma } from "@/lib/prisma";
 
-function formatDateBR(date: Date) {
-  return date.toLocaleDateString("pt-BR", {
-    timeZone: "America/Sao_Paulo",
+function formatDateBR(date: Date | string) {
+  // Shift to BRT (UTC-3) then format as UTC to avoid ICU timezone dependency on server
+  const brt = new Date(new Date(date).getTime() - 3 * 60 * 60 * 1000);
+  return brt.toLocaleDateString("pt-BR", {
+    timeZone: "UTC",
     weekday: "long",
     day: "2-digit",
     month: "long",
   });
 }
 
-function formatTimeBR(date: Date) {
-  return date.toLocaleTimeString("pt-BR", {
-    timeZone: "America/Sao_Paulo",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+function formatTimeBR(date: Date | string) {
+  const d = new Date(date);
+  const h = (d.getUTCHours() - 3 + 24) % 24;
+  const m = d.getUTCMinutes();
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
 const PHASE_LABELS: Record<string, string> = {

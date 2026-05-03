@@ -3,8 +3,9 @@ import Link from "next/link";
 import Image from "next/image";
 
 function formatDateBR(dateStr: Date | string) {
-  return new Date(dateStr).toLocaleDateString("pt-BR", {
-    timeZone: "America/Sao_Paulo",
+  const brt = new Date(new Date(dateStr).getTime() - 3 * 60 * 60 * 1000);
+  return brt.toLocaleDateString("pt-BR", {
+    timeZone: "UTC",
     weekday: "short",
     day: "2-digit",
     month: "short",
@@ -12,11 +13,10 @@ function formatDateBR(dateStr: Date | string) {
 }
 
 function formatTimeBR(dateStr: Date | string) {
-  return new Date(dateStr).toLocaleTimeString("pt-BR", {
-    timeZone: "America/Sao_Paulo",
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const d = new Date(dateStr);
+  const h = (d.getUTCHours() - 3 + 24) % 24;
+  const m = d.getUTCMinutes();
+  return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
 function CountdownDisplay({ targetDate }: { targetDate: Date }) {
