@@ -2,8 +2,8 @@ export const dynamic = "force-dynamic";
 
 import { prisma } from "@/lib/prisma";
 
-function formatDateBR(date: Date) {
-  return date.toLocaleDateString("pt-BR", {
+function formatDateBR(date: Date | string) {
+  return new Date(date).toLocaleDateString("pt-BR", {
     timeZone: "America/Sao_Paulo",
     weekday: "long",
     day: "2-digit",
@@ -11,8 +11,8 @@ function formatDateBR(date: Date) {
   });
 }
 
-function formatTimeBR(date: Date) {
-  return date.toLocaleTimeString("pt-BR", {
+function formatTimeBR(date: Date | string) {
+  return new Date(date).toLocaleTimeString("pt-BR", {
     timeZone: "America/Sao_Paulo",
     hour: "2-digit",
     minute: "2-digit",

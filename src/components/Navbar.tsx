@@ -27,13 +27,12 @@ export default function Navbar() {
         }}
       >
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
+        <Link href="/" className="flex items-center gap-2.5">
           <Image
             src="/trofeu.png"
             alt="Troféu Copa do Mundo"
-            width={28}
-            height={74}
-            className="transition-all duration-300 group-hover:scale-110"
+            width={22}
+            height={59}
           />
           <span className="leading-none">
             <span
@@ -112,7 +111,7 @@ export default function Navbar() {
         style={{ background: "#0E1018", borderColor: "var(--border)" }}
       >
         <Link href="/" className="flex items-center gap-2">
-          <Image src="/trofeu.png" alt="Troféu" width={20} height={53} />
+          <Image src="/trofeu.png" alt="Troféu" width={16} height={42} />
           <span className="font-display text-lg" style={{ color: "var(--accent)" }}>
             Copa
           </span>
