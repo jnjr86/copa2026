@@ -101,7 +101,7 @@ async function main() {
     [2,  "Grupo", "A", "2026-06-12T02:00:00.000Z", "Coreia do Sul", "República Tcheca", "Estadio Akron (Guadalajara)"],
     [3,  "Grupo", "B", "2026-06-12T19:00:00.000Z", "Canadá", "Bósnia e Herzegovina", "BMO Field"],
     [4,  "Grupo", "D", "2026-06-13T01:00:00.000Z", "Estados Unidos", "Paraguai", "SoFi Stadium"],
-    [5,  "Grupo", "C", "2026-06-13T19:00:00.000Z", "Brasil", "Marrocos", "MetLife Stadium"],
+    [5,  "Grupo", "C", "2026-06-13T22:00:00.000Z", "Brasil", "Marrocos", "MetLife Stadium"],
     [6,  "Grupo", "B", "2026-06-13T19:00:00.000Z", "Suíça", "Catar", "Levi's Stadium"],
     [7,  "Grupo", "C", "2026-06-14T01:00:00.000Z", "Escócia", "Haiti", "Gillette Stadium"],
     [8,  "Grupo", "D", "2026-06-14T04:00:00.000Z", "Austrália", "Turquia", "BC Place"],
