@@ -64,6 +64,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className="relative px-4 py-2 rounded-lg text-base font-body font-600 transition-all duration-200"
+                suppressHydrationWarning
                 style={{
                   color: active ? "var(--accent)" : "var(--text-secondary)",
                   background: active ? "var(--accent-dim)" : "transparent",
@@ -137,6 +138,7 @@ export default function Navbar() {
               key={link.href}
               href={link.href}
               className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2.5 transition-all"
+              suppressHydrationWarning
               style={{
                 color: active ? "var(--accent)" : "var(--text-secondary)",
                 background: active ? "var(--accent-dim)" : "transparent",
