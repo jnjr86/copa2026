@@ -66,7 +66,7 @@ export default async function HomePage() {
         <h1 className="font-display text-4xl sm:text-5xl leading-tight mb-2">
           <span style={{ color: "var(--accent)" }}>Copa do Mundo</span>
           <br />
-          <span style={{ color: "var(--text-primary)" }}>FIFA 2026™</span>
+          <span style={{ color: "var(--text-primary)" }}>2026</span>
         </h1>
         <p className="font-body text-base mt-2" style={{ color: "var(--text-secondary)" }}>
           EUA · Canadá · México &nbsp;·&nbsp; 11 Jun — 19 Jul 2026

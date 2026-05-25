@@ -52,7 +52,7 @@ export default function Navbar() {
               background: "var(--accent-dim)",
             }}
           >
-            FIFA World Cup™
+            Mundial
           </span>
         </Link>
 
@@ -122,7 +122,7 @@ export default function Navbar() {
           className="text-sm font-body px-2 py-1 rounded-full"
           style={{ background: "var(--accent-dim)", color: "var(--accent)" }}
         >
-          FIFA WC™
+          Mundial
         </span>
       </div>
 

@@ -31,17 +31,22 @@ export default function JogosPage() {
   const [group, setGroup] = useState("");
   const [search, setSearch] = useState("");
 
-  const fetchMatches = useCallback(async () => {
-    setLoading(true);
+  const fetchMatches = useCallback(async (showSpinner = false) => {
+    if (showSpinner) setLoading(true);
     const params = new URLSearchParams();
     if (phase) params.set("phase", phase);
     if (group) params.set("group", group);
     const res = await fetch(`/api/matches?${params}`);
     setMatches(await res.json());
-    setLoading(false);
+    if (showSpinner) setLoading(false);
   }, [phase, group]);
 
-  useEffect(() => { fetchMatches(); }, [fetchMatches]);
+  useEffect(() => { fetchMatches(true); }, [fetchMatches]);
+
+  useEffect(() => {
+    const id = setInterval(() => { fetchMatches(false); }, 30_000);
+    return () => clearInterval(id);
+  }, [fetchMatches]);
 
   const filtered = matches.filter((m) => {
     if (!search) return true;

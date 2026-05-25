@@ -70,6 +70,7 @@ export default function MatchCard({ match, onScoreUpdate }: MatchCardProps) {
     label: match.phase,
   };
 
+  const isLive = match.status === "live";
   const hasScore = match.homeScore !== null && match.awayScore !== null;
   const homeName = match.homeTeam?.name ?? match.tbd1 ?? "A definir";
   const awayName = match.awayTeam?.name ?? match.tbd2 ?? "A definir";
@@ -126,6 +127,22 @@ export default function MatchCard({ match, onScoreUpdate }: MatchCardProps) {
             {match.group ? ` · ${match.group}` : ""}
           </span>
           <div className="flex items-center gap-2">
+            {isLive && (
+              <span
+                className="badge flex items-center gap-1"
+                style={{
+                  background: "rgba(239,68,68,0.15)",
+                  color: "#EF4444",
+                  fontWeight: 700,
+                }}
+              >
+                <span
+                  className="w-1.5 h-1.5 rounded-full animate-pulse"
+                  style={{ background: "#EF4444" }}
+                />
+                AO VIVO
+              </span>
+            )}
             {isBrasil && (
               <span
                 className="badge"
@@ -149,8 +166,12 @@ export default function MatchCard({ match, onScoreUpdate }: MatchCardProps) {
           <div className="flex-1 flex flex-col items-end gap-1">
             <span className="text-2xl leading-none">{homeFlag}</span>
             <span
-              className="text-sm font-body font-600 text-right leading-tight"
-              style={{ color: hasScore && match.homeScore! > match.awayScore! ? "var(--text-primary)" : "var(--text-secondary)" }}
+              className="font-body text-right leading-tight"
+              style={{
+                fontSize: "16px",
+                fontWeight: 400,
+                color: hasScore && match.homeScore! > match.awayScore! ? "var(--text-primary)" : "var(--text-secondary)",
+              }}
             >
               {homeName}
             </span>
@@ -172,14 +193,22 @@ export default function MatchCard({ match, onScoreUpdate }: MatchCardProps) {
             ) : (
               <>
                 <span
-                  className="font-display text-base leading-none"
-                  style={{ color: "var(--text-primary)" }}
+                  className="font-body leading-none"
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: 200,
+                    color: "var(--text-primary)",
+                  }}
                 >
                   {formatTime(match.date)}
                 </span>
                 <span
-                  className="text-[12px] font-body mt-0.5"
-                  style={{ color: "var(--text-muted)" }}
+                  className="font-body mt-0.5"
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: 200,
+                    color: "var(--text-muted)",
+                  }}
                 >
                   {formatDate(match.date)}
                 </span>
@@ -191,8 +220,12 @@ export default function MatchCard({ match, onScoreUpdate }: MatchCardProps) {
           <div className="flex-1 flex flex-col items-start gap-1">
             <span className="text-2xl leading-none">{awayFlag}</span>
             <span
-              className="text-sm font-body font-600 leading-tight"
-              style={{ color: hasScore && match.awayScore! > match.homeScore! ? "var(--text-primary)" : "var(--text-secondary)" }}
+              className="font-body leading-tight"
+              style={{
+                fontSize: "16px",
+                fontWeight: 400,
+                color: hasScore && match.awayScore! > match.homeScore! ? "var(--text-primary)" : "var(--text-secondary)",
+              }}
             >
               {awayName}
             </span>
