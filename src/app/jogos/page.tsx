@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import MatchCard from "@/components/MatchCard";
 
 interface Team { name: string; flag: string; }
@@ -23,6 +23,7 @@ const PHASES = [
 ];
 
 const GROUPS = ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
+const POLL_INTERVAL = 60_000; // 60 segundos
 
 export default function JogosPage() {
   const [matches, setMatches] = useState<Match[]>([]);
@@ -30,18 +31,46 @@ export default function JogosPage() {
   const [phase, setPhase] = useState("");
   const [group, setGroup] = useState("");
   const [search, setSearch] = useState("");
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const [sinceLabel, setSinceLabel] = useState("");
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const fetchMatches = useCallback(async () => {
-    setLoading(true);
+  const fetchMatches = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true);
+    else setRefreshing(true);
+
     const params = new URLSearchParams();
     if (phase) params.set("phase", phase);
     if (group) params.set("group", group);
     const res = await fetch(`/api/matches?${params}`);
     setMatches(await res.json());
-    setLoading(false);
+    setLastUpdated(new Date());
+
+    if (!silent) setLoading(false);
+    else setRefreshing(false);
   }, [phase, group]);
 
-  useEffect(() => { fetchMatches(); }, [fetchMatches]);
+  // Initial fetch + restart polling whenever filters change
+  useEffect(() => {
+    fetchMatches(false);
+
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => fetchMatches(true), POLL_INTERVAL);
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [fetchMatches]);
+
+  // Update "há X min" label every minute
+  useEffect(() => {
+    const update = () => {
+      if (!lastUpdated) return;
+      const diff = Math.floor((Date.now() - lastUpdated.getTime()) / 60_000);
+      setSinceLabel(diff === 0 ? "agora mesmo" : `há ${diff} min`);
+    };
+    update();
+    const id = setInterval(update, 30_000);
+    return () => clearInterval(id);
+  }, [lastUpdated]);
 
   const filtered = matches.filter((m) => {
     if (!search) return true;
@@ -66,13 +95,45 @@ export default function JogosPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-display text-3xl sm:text-4xl" style={{ color: "var(--text-primary)" }}>
-          Todos os Jogos
-        </h1>
-        <p className="font-body text-base mt-1" style={{ color: "var(--text-secondary)" }}>
-          104 jogos · Registre placares em qualquer partida
-        </p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h1 className="font-display text-3xl sm:text-4xl" style={{ color: "var(--text-primary)" }}>
+            Todos os Jogos
+          </h1>
+          <p className="font-body text-base mt-1" style={{ color: "var(--text-secondary)" }}>
+            104 jogos · Registre placares em qualquer partida
+          </p>
+        </div>
+
+        {/* Live refresh indicator */}
+        <div className="flex items-center gap-2 self-start mt-1">
+          <span
+            className="w-2 h-2 rounded-full animate-pulse"
+            style={{ background: refreshing ? "var(--accent)" : "rgba(35,253,166,0.4)" }}
+          />
+          <span className="text-sm font-body" style={{ color: "var(--text-muted)" }}>
+            {lastUpdated ? `Atualizado ${sinceLabel}` : "Carregando..."}
+          </span>
+          <button
+            onClick={() => fetchMatches(true)}
+            disabled={refreshing || loading}
+            className="text-sm font-body px-2.5 py-1 rounded-lg transition-all disabled:opacity-40"
+            style={{
+              border: "1px solid var(--border)",
+              color: "var(--text-secondary)",
+              background: "transparent",
+            }}
+            onMouseEnter={(e) => {
+              if (!(e.currentTarget as HTMLButtonElement).disabled)
+                (e.currentTarget as HTMLElement).style.borderColor = "var(--accent)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLElement).style.borderColor = "var(--border)";
+            }}
+          >
+            ↻
+          </button>
+        </div>
       </div>
 
       {/* Filter bar */}
@@ -131,7 +192,7 @@ export default function JogosPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           {filtered.map((match) => (
-            <MatchCard key={match.id} match={match} onScoreUpdate={fetchMatches} />
+            <MatchCard key={match.id} match={match} onScoreUpdate={() => fetchMatches(true)} />
           ))}
         </div>
       )}
